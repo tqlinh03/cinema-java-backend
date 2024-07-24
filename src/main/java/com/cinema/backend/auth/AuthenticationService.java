@@ -1,7 +1,5 @@
 package com.cinema.backend.auth;
 
-import com.cinema.backend.modal.store.Store;
-import com.cinema.backend.modal.store.StoreRepository;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +36,6 @@ import java.time.LocalDateTime;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-    private final StoreRepository storeRepository;
 
     private final UserMapper  userMapper;
     private final UserService userService;
@@ -60,8 +57,6 @@ public class AuthenticationService {
         var userRole = roleRepository.findByName("USER")
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("Không tìm vai trò: USER."));
-        Store store = storeRepository.findByName("Manage_Store")
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy cửa hàng có Name = Manage_Store "));
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -70,7 +65,6 @@ public class AuthenticationService {
                 .accountLocked(false)
                 .enabled(false)
                 .role(userRole)
-                .store(store)
                 .build();
         userRepository.save(user);
         sendValidationEmail(user);

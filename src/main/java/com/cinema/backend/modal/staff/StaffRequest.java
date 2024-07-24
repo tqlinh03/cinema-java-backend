@@ -8,7 +8,7 @@ public record StaffRequest (
         String lastName,
         @NotNull(message = "Email không được để trống.")
         String email,
-        @NotNull(message = "Mật khẩu không được để trống.")
+//        @NotNull(message = "Mật khẩu không được để trống.")
         String password,
         String phone,
         String address,

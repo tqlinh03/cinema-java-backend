@@ -2,7 +2,6 @@ package com.cinema.backend.modal.staff;
 
 import com.cinema.backend.common.BaseEntity;
 import com.cinema.backend.modal.rota.Rota;
-import com.cinema.backend.modal.store.Store;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,11 +32,7 @@ public class Staff extends BaseEntity {
     private String gender;
     private String position;
     private Float hourly_rate;
-
-    @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
-    @JsonBackReference
-    private Store store;
+    private boolean isDeleted;
 
     @ManyToMany(mappedBy = "staffs")
     @JsonBackReference

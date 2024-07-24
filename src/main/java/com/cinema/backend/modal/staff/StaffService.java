@@ -3,7 +3,6 @@ package com.cinema.backend.modal.staff;
 import com.cinema.backend.common.Meta;
 import com.cinema.backend.common.PageResponse;
 import com.cinema.backend.modal.movies.entity.Movie;
-import com.cinema.backend.modal.store.StoreRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class StaffService {
-    public final StoreRepository storeRepository;
     public final StaffRepository staffRepository;
     public final StaffMapper staffMapper;
 
@@ -41,7 +39,9 @@ public class StaffService {
     public void delete(Integer id) {
         Staff staff = staffRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("không tìm thấy nhân viên có id = " + id));
-        staffRepository.delete(staff);
+        staff.setDeleted(true);
+        staffRepository.save(staff);
+
     }
 
     public StaffResponse findById(Integer id) {
@@ -52,7 +52,7 @@ public class StaffService {
 
     public PageResponse<StaffResponse> getAll(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate"));
-        Page<Staff> staffPage = staffRepository.findAll(pageable);
+        Page<Staff> staffPage = staffRepository.findAllStaffs(pageable);
         List<StaffResponse> staffResponses = staffPage.stream()
                 .map(staffMapper::toStaffResponse)
                 .toList();

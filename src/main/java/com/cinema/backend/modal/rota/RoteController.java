@@ -1,10 +1,15 @@
 package com.cinema.backend.modal.rota;
 
 import com.cinema.backend.common.PageResponse;
+import com.cinema.backend.modal.showtimes.dto.ShowtimesResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/rotas")
@@ -48,5 +53,12 @@ public class RoteController {
             @RequestParam(name = "size", defaultValue = "10", required = true) Integer size
     ) {
         return ResponseEntity.ok(rotaService.findAll(page, size));
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<RotaResponse>> findAllByDate(
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
+    ) {
+        return ResponseEntity.ok(rotaService.findAllByDate(date));
     }
 }

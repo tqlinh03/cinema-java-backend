@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.cinema.backend.modal.order.Order;
-import com.cinema.backend.modal.store.Store;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -53,9 +52,6 @@ public class User implements UserDetails, Principal {
   // @ManyToMany(fetch = FetchType.EAGER, mappedBy = "user")
   @ManyToOne(fetch = FetchType.EAGER)
   private Role role;
-
-  @ManyToOne
-  private Store store;
 
   @OneToMany(mappedBy = "user")
   private List<Order> orders;
